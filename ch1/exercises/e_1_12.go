@@ -39,15 +39,22 @@ func main() {
 
 	// 浏览器展示gif动画
 	http.HandleFunc("/", func(w http.ResponseWriter, r * http.Request) {
-		lissajois(w)
+		if err := r.ParseForm(); err != nil {
+			cyclesRes := r.Form.Get("cycles")
+			cycles := 0
+			if len(cyclesRes) == 0 {
+				cycles = 5
+			}
+			cycles = int(cyclesRes[0])
+			lissajois(w, cycles)
+		}
 	})
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
-func lissajois(out io.Writer) {
+func lissajois(out io.Writer, cycles int) {
 	// 常量定义在函数体内部，则只能在函数体内使用
 	const (
-		cycles = 5
 		res = 0.001
 		size = 100
 		nframes = 64
@@ -67,7 +74,7 @@ func lissajois(out io.Writer) {
 		rect := image.Rect(0, 0, 2*size+1, 2*size+1)
 		img := image.NewPaletted(rect, pallete)
 
-		for t := 0.0; t < cycles*2*math.Pi; t += res {
+		for t := 0.0; t < float64(cycles)*2*math.Pi; t += res {
 			x := math.Sin(t)
 			y := math.Cos(t*freq + phase)
 			idx := rand.Intn(5)
