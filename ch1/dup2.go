@@ -22,7 +22,7 @@ func main() {
 
 			// 打开失败 nil表示空
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "dup2: %v\n", err)
+				fmt.Fprintf(os.Stderr, "open file error: %v\n", err)
 			}
 			countFileLines(f, lines)
 			// 关闭文件

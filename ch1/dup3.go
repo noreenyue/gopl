@@ -17,7 +17,7 @@ func main() {
 	for _, filename := range os.Args[1:] {
 		data, err := ioutil.ReadFile(filename)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "dup3 %v\n", err)
+			fmt.Fprintf(os.Stderr, "read file error %v\n", err)
 		}
 
 		// ReadFile返回类型是字节切片(byte splice)，需强转为string类型
