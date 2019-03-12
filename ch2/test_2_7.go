@@ -1,8 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
-//func f() {}
+
 
 var gl = "gl"
 func main() {
@@ -32,5 +35,48 @@ func main() {
 	}
 	fmt.Println()
 
+	if x:=f2(); x==0 {
+		fmt.Println(x)
+	} else if y:=g2(); x == y {	// 第一个if中声明的变量，在第二个if中也可以访问
+		fmt.Println(x, y)
+	} else {
+		fmt.Println(x, y)
+	}
+	// fmt.Println(x, y)	// compile error, x and y are not visible here
 
+	initFunc()
+	initFunc2()
+}
+
+var cwd string
+func initFunc(){
+	// 此时赋值的cwd为局部变量, global cwd为unused变量
+	cwd, err := os.Getwd()
+	if err != nil {
+		fmt.Fprintf(os.Stdout,"get cwd failed: %v\n", err)
+		os.Exit(1)
+	}
+	fmt.Printf("current working directory=%v\n", cwd)
+}
+
+func initFunc2(){
+	var err error
+	// cwd 为 global变量
+	cwd, err = os.Getwd()
+	if err != nil {
+		fmt.Fprintf(os.Stdout,"get cwd failed: %v\n", err)
+		os.Exit(1)
+	}
+	fmt.Printf("current working directory=%v\n", cwd)
+}
+
+/**
+	包级别声明的顺序不影响作用域范围
+ */
+func f2() int{
+	return 0
+}
+
+func g2() int{
+	return 0
 }
