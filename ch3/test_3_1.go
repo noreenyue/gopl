@@ -1,5 +1,8 @@
 package main
 
+/**
+ 整型
+*/
 import "fmt"
 
 func main() {
